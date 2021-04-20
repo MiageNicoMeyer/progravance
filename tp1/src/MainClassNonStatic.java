@@ -39,7 +39,7 @@ public class MainClassNonStatic {
     public class TraitementDeux implements Consumer<UeClass> {
         @Override
         public void accept(UeClass ueClass) {
-            if(ueClass.getNomEnseignementResp() == "Dupont") {
+            if(ueClass.getNomEnseignementResp().equals("Dupont")) {
                 ueClass.setAnneeCrea(ueClass.getAnneeCrea() + 1);
                 System.out.println(ueClass.getAnneeCrea());
             }
@@ -49,7 +49,7 @@ public class MainClassNonStatic {
     public class TraitementTrois implements Consumer<UeClass> {
         @Override
         public void accept(UeClass ueClass) {
-            if (ueClass.getTypeControle() == "QCM" && ueClass.getRattrapage()) {
+            if (ueClass.getTypeControle().equals("QCM") && ueClass.getRattrapage()) {
                 ueClass.setRattrapage(false);
                 System.out.println(ueClass.getRattrapage());
             }
