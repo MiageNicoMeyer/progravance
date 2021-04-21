@@ -18,6 +18,10 @@ public class UeClass {
         this.rattrapage = rattrapage;
     }
 
+    public UeClass() {
+
+    }
+
     public String getNomModule() {
         return nomModule;
     }
