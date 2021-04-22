@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class MainClassLambda {
 
     private static ArrayList<UeClass> arrayListUeClass = new ArrayList<>();
-    
+
     public static void main(String[] args) {
 
         MainClassAnonyme mainClassAnonyme = new MainClassAnonyme();
