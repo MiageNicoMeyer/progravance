@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class AnalyseurDeClasse {
 
@@ -17,11 +20,18 @@ public class AnalyseurDeClasse {
                 System.out.print("Entrez le nom d'une classe (ex : java.util.Date): ");
                 String nomClasse = litChaineAuClavier();
 
+                /* Exo 1 : */
                 analyseClasse(nomClasse);
                 ok = true;
+
+                /* Exo 2 :
+                Class cl = getClasse(nomClasse);
+                System.out.println(toString(cl,0));
+                */
+
             } catch(ClassNotFoundException e) {
                 System.out.println("Classe non trouv�e.");
-            }catch(IOException e) {
+            } catch(IOException e) {
                 System.out.println("Erreur d'E/S!");
             }
         }
@@ -29,9 +39,9 @@ public class AnalyseurDeClasse {
 
     public static void analyseClasse(String nomClasse) throws ClassNotFoundException {
         // R�cup�ration d'un objet de type Class correspondant au nom pass� en param�tres
-        Class cl = // CODE A ECRIRE !
+        Class cl = getClasse(nomClasse);
 
-                afficheEnTeteClasse(cl);
+        afficheEnTeteClasse(cl);
 
         System.out.println();
         afficheInnerClasses(cl);
@@ -52,46 +62,74 @@ public class AnalyseurDeClasse {
 
     /** Retourne la classe dont le nom est pass� en param�tre */
     public static Class getClasse(String nomClasse) throws ClassNotFoundException {
-        // CODE A ECRIRE
+        return Class.forName(nomClasse);
     }
 
     /** Cette m�thode affiche par ex "public class C1 extends C2 implements I1, I2 {" */
-    public static void afficheEnTeteClasse(Class cl) {/*
-        //  Affichage du modifier et du nom de la classe
-        // CODE A ECRIRE
+    public static void afficheEnTeteClasse(Class cl) {
+
+        System.out.println(cl.getName());
 
         // R�cup�ration de la superclasse si elle existe (null si cl est le type Object)
-        Class supercl = // CODE A ECRIRE
+        Class supercl = cl.getSuperclass() == null ? null : cl.getSuperclass();
 
-                // On ecrit le "extends " que si la superclasse est non nulle et diff�rente de Object
-                // CODE A ECRIRE
+        if(supercl != null && supercl != Object.class) {
+            // On ecrit le "extends " que si la superclasse est non nulle et diff�rente de Object
+            System.out.println(" extends " + supercl.getName() + "");
 
-                // Affichage des interfaces que la classe implemente
-                // CODE A ECRIRE
+            // Affichage des interfaces que la classe implemente
+            for(Class interfasse : cl.getInterfaces()) {
+                System.out.println(interfasse.getName());
+            }
 
-                // Accolade ouvrante de d�but de classe
-                System.out.print(" {\n");*/
+            // Accolade ouvrante de d�but de classe
+            System.out.print(" { ");
+        }
+
     }
 
     /** Cette m�thode affiche les classes imbriqu�es statiques ou pas
      A faire apr�s avoir fait fonctionner le reste */
     public static void afficheInnerClasses(Class cl) {
-        // CODE A ECRIRE
+        System.out.println("InnerClasses : {");
+        for(Class innerClass : cl.getClasses()) {
+            System.out.println(innerClass.getName());
+        }
+        System.out.println("}");
     }
 
     public static void afficheAttributs(Class cl) {
-        // CODE A ECRIRE
+        System.out.println("Attributs : {");
+        for(Field field : cl.getDeclaredFields()) {
+            System.out.println(field.getName());
+        }
+        System.out.println("}");
     }
 
     public static void afficheConstructeurs(Class cl) {
-        // CODE A ECRIRE
-        System.out.println("{}");
-
+        System.out.println("Constructeur :{");
+        for(Constructor constructor : cl.getConstructors()) {
+            System.out.println(constructor.getName());
+        }
+        System.out.println("}");
     }
 
     public static void afficheMethodes(Class cl) {
-        // CODE A ECRIRE
-        System.out.println("{}");
+        System.out.println("Methodes : {");
+        for(Method method : cl.getMethods()) {
+            System.out.println(method.getName());
+        }
+        System.out.println("}");
+    }
+
+    public String toString(Object object, Integer profondeur) {
+        String result = "";
+        Class classObject = object.getClass();
+        result += "Objet : \n";
+        for(Field field : classObject.getFields()) {
+            result += field.getName() + " : " + field.toString() + "\n";
+        }
+        return result;
     }
 }
 
