@@ -107,7 +107,7 @@ public class AnalyseurDeClasse {
     }
 
     public static void afficheConstructeurs(Class cl) {
-        System.out.println("Constructeur :{");
+        System.out.println("Constructeur : {");
         for(Constructor constructor : cl.getConstructors()) {
             System.out.println(constructor.getName());
         }
@@ -122,14 +122,24 @@ public class AnalyseurDeClasse {
         System.out.println("}");
     }
 
-    public String toString(Object object, Integer profondeur) {
-        String result = "";
-        Class classObject = object.getClass();
-        result += "Objet : \n";
-        for(Field field : classObject.getFields()) {
-            result += field.getName() + " : " + field.toString() + "\n";
+    public static void toString(Object object, Integer profondeur) throws Exception {
+        String retour;
+        if (object.getClass().getFields().length == 0) {
+
+        } else if (profondeur == 0) {
+            analyseClasse(object.getClass().getName());
+        } else {
+            analyseClasse(object.getClass().getName());
+            for (Field field : object.getClass().getFields()){
+                Constructor<?>[] constructors = field.getClass().getConstructors();
+                if (constructors.length > 0) {
+                    toString(constructors[0].newInstance(),profondeur-1);
+                }
+                else {
+                    analyseClasse(field.getType() + "");
+                }
+            }
         }
-        return result;
     }
 }
 
