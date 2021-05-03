@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,6 +13,7 @@ public class AnalyseurDeClasse {
         return br.readLine();
     }
 
+    @MiageBasics
     public static void main(String[] args) {
         boolean ok = false;
 
@@ -55,10 +57,12 @@ public class AnalyseurDeClasse {
         System.out.println();
         afficheMethodes(cl);
 
+        System.out.println();
+        afficheAnnotations(cl);
+
         // L'accolade fermante de fin de classe !
         System.out.println("}");
     }
-
 
     /** Retourne la classe dont le nom est pass� en param�tre */
     public static Class getClasse(String nomClasse) throws ClassNotFoundException {
@@ -102,6 +106,14 @@ public class AnalyseurDeClasse {
         System.out.println("Attributs : {");
         for(Field field : cl.getDeclaredFields()) {
             System.out.println(field.getName());
+        }
+        System.out.println("}");
+    }
+
+    private static void afficheAnnotations(Class cl) {
+        System.out.println("Annotations : {");
+        for(Annotation annotation: cl.getAnnotations()) {
+            System.out.println(annotation.toString());
         }
         System.out.println("}");
     }
