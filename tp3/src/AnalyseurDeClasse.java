@@ -119,7 +119,7 @@ public class AnalyseurDeClasse {
     }
 
     public static void afficheConstructeurs(Class cl) {
-        System.out.println("Constructeur : {");
+        System.out.println("Constructeurs : {");
         for(Constructor constructor : cl.getConstructors()) {
             System.out.println(constructor.getName());
         }
@@ -135,7 +135,6 @@ public class AnalyseurDeClasse {
     }
 
     public static void toString(Object object, Integer profondeur) throws Exception {
-        String retour;
         if (object.getClass().getFields().length == 0) {
 
         } else if (profondeur == 0) {
