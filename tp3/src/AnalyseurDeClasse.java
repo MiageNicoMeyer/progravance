@@ -5,8 +5,15 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnalyseurDeClasse {
+
+    static List<Class> classes = new ArrayList<Class>();
+    static ArrayList<Object> fieldAnneeUniv2020 = new ArrayList<Object>();
+    static ArrayList<Object> field1 = new ArrayList<Object>();
+    static ArrayList<Object> field2 = new ArrayList<Object>();
 
     public static String litChaineAuClavier() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,16 +27,7 @@ public class AnalyseurDeClasse {
             try {
                 System.out.print("Entrez le nom d'une classe (ex : java.util.Date): ");
                 String nomClasse = litChaineAuClavier();
-
-                /* Exo 1 : */
                 analyseClasse(nomClasse);
-                ok = true;
-
-                /* Exo 2 :
-                Class cl = getClasse(nomClasse);
-                System.out.println(toString(cl,0));
-                */
-
             } catch(ClassNotFoundException e) {
                 System.out.println("Classe non trouv�e.");
             } catch(IOException e) {
@@ -39,9 +37,9 @@ public class AnalyseurDeClasse {
     }
 
     public static void analyseClasse(String nomClasse) throws ClassNotFoundException {
-        // R�cup�ration d'un objet de type Class correspondant au nom pass� en param�tres
         Class cl = getClasse(nomClasse);
 
+        System.out.println();
         afficheEnTeteClasse(cl);
 
         System.out.println();
@@ -59,7 +57,6 @@ public class AnalyseurDeClasse {
         System.out.println();
         afficheAnnotations(cl);
 
-        // L'accolade fermante de fin de classe !
         System.out.println("}");
     }
 
@@ -89,6 +86,19 @@ public class AnalyseurDeClasse {
             System.out.print(" { ");
         }
 
+        if(cl.getAnnotations().length > 0){
+            System.out.println("Annotations : {");
+
+            MiageBasics miageBasics = (MiageBasics) cl.getAnnotation(MiageBasics.class);
+            if(miageBasics!=null){
+                if(miageBasics.anneeUniv() == 2020) {
+                    classes.add(cl);
+                }
+            }
+            for(Annotation annotation : cl.getAnnotations()) {
+                System.out.println(" " + annotation.toString());
+            }
+        }
     }
 
     /** Cette m�thode affiche les classes imbriqu�es statiques ou pas
@@ -105,6 +115,26 @@ public class AnalyseurDeClasse {
         System.out.println("Attributs : {");
         for(Field field : cl.getDeclaredFields()) {
             System.out.println(field.getName());
+            if(field.getAnnotations().length > 0) {
+                System.out.println(" Annotations : {");
+                MiageBasics miageBasics = (MiageBasics) field.getAnnotation(MiageBasics.class);
+                if(miageBasics != null) {
+                    if(miageBasics.anneeUniv() == 2020) {
+                        fieldAnneeUniv2020.add(field);
+                    }
+                    if(miageBasics.seance() == 1) {
+                        field1.add(field);
+                    }
+                    if(miageBasics.seance() == 2) {
+                        field2.add(field);
+                    }
+                }
+                System.out.println("{");
+                for(Annotation annotation : field.getAnnotations()){
+                    System.out.println(" " + annotation.toString());
+                }
+                System.out.println("}");
+            }
         }
         System.out.println("}");
     }
