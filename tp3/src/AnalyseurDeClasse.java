@@ -13,8 +13,6 @@ public class AnalyseurDeClasse {
         return br.readLine();
     }
 
-    @MiageBasics(nom = "", prenom = "", annneeUniv = 0, module = "")
-    @MiageAdvanced
     public static void main(String[] args) {
         boolean ok = false;
 
@@ -103,7 +101,6 @@ public class AnalyseurDeClasse {
         System.out.println("}");
     }
 
-    @MiageBasics(nom = "", prenom = "", annneeUniv = 0, module = "")
     public static void afficheAttributs(Class cl) {
         System.out.println("Attributs : {");
         for(Field field : cl.getDeclaredFields()) {
@@ -115,12 +112,11 @@ public class AnalyseurDeClasse {
     private static void afficheAnnotations(Class cl) {
         System.out.println("Annotations : {");
         for(Annotation annotation: cl.getAnnotations()) {
-            System.out.println(annotation.toString());
+            System.out.println(annotation.annotationType().getName() + ' ' + annotation.toString());
         }
         System.out.println("}");
     }
 
-    @MiageBasics(nom = "", prenom = "", annneeUniv = 0, module = "")
     public static void afficheConstructeurs(Class cl) {
         System.out.println("Constructeurs : {");
         for(Constructor constructor : cl.getConstructors()) {
@@ -129,7 +125,6 @@ public class AnalyseurDeClasse {
         System.out.println("}");
     }
 
-    @MiageBasics(nom = "", prenom = "", annneeUniv = 0, module = "")
     public static void afficheMethodes(Class cl) {
         System.out.println("Methodes : {");
         for(Method method : cl.getMethods()) {
